@@ -73,7 +73,7 @@ retrieve <-
 
     if (this_res$archived_snapshots$closest$available) {
       this_res$html <-
-        xml2::read_html(this_res$archived_snapshots$closest$url)
+        xml2::download_html(this_res$archived_snapshots$closest$url)
     } else {
       this_res$html <-
         NA
