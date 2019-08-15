@@ -1,7 +1,7 @@
 Package: rwayback
 Type: Package
 Title: rwayback retrieves a sequence of pages archived by the Internet Archive's Wayback Machine
-Version: 0.1.0
+Version: 0.1.1
 Author: Francesco Bailo
 Maintainer: Francesco Bailo <me@francescobailo.net>
 Description: rwayback allows a user to retrive different versions of the same page
