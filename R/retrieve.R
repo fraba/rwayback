@@ -9,7 +9,8 @@ parseTimestamp <- function(url, tz) {
 
 formatTimestamp <- function(timestamp.str, tz) {
   timestamp.posix <-
-    as.POSIXct(timestamp.str, format = "%Y%m%d%H%M%S", tz = tz)
+    as.POSIXct(timestamp.str, format = "%Y%m%d%H%M%S", tz = "GMT")
+  attributes(timestamp.posix)$tzone <- tz
   return(timestamp.posix)
 }
 
@@ -65,8 +66,8 @@ retrieve <-
       jsonlite::fromJSON(this_url)
 
     if (this_res$archived_snapshots$closest$available) {
-      print(paste0("Searched: ", formatTimestamp(this_res$timestamp, tz = tz)))
-      print(paste0("Found: ", parseTimestamp(this_res$archived_snapshots$closest$url, tz)))
+      print(paste0("Searched: ", formatTimestamp(this_res$timestamp, tz = "GMT")))
+      print(paste0("Found:    ", parseTimestamp(this_res$archived_snapshots$closest$url, "GMT")))
       print("")
     }
 
@@ -80,8 +81,7 @@ retrieve <-
 
     archive$res[[i]] <- this_res
 
+    save(archive, file = filename)
+
   }
-
-  save(archive, file = filename)
-
 }
