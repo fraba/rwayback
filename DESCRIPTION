@@ -1,0 +1,15 @@
+Package: rwayback
+Type: Package
+Title: rwayback retrieves a sequence of pages archived by the Internet Archive's Wayback Machine
+Version: 0.1.0
+Author: Francesco Bailo
+Maintainer: Francesco Bailo <me@francescobailo.net>
+Description: rwayback allows a user to retrive different versions of the same page
+    by specifying the time intervals using the public API the Internet Archive's Wayback Machine
+    (no registration needed) and to store them in a R object.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Depends:
+    jsonlite,
+    xml2
