@@ -1,3 +1,15 @@
+html_text_collapse <- function(x, trim = FALSE, collapse = "\n"){
+  UseMethod("html_text_collapse")
+}
+
+html_text_collapse.xml_nodeset <- function(x, trim = FALSE, collapse = "\n"){
+  vapply(x, html_text_collapse.xml_node, character(1), trim = trim, collapse = collapse)
+}
+
+html_text_collapse.xml_node <- function(x, trim = FALSE, collapse = "\n"){
+  paste(xml2::xml_find_all(x, ".//text()"), collapse = collapse)
+}
+
 parseTimestamp <- function(url, tz) {
   timestamp.str <-
     gsub("(http(s)?://web.archive.org/web/)([0-9]{14})(/.*)", "\\3", url)
@@ -73,12 +85,18 @@ retrieve <-
 
     if (this_res$archived_snapshots$closest$available) {
       this_res$html <-
-        xml2::download_html(this_res$archived_snapshots$closest$url)
+        list(h1 =
+               xml2::read_html(this_res$archived_snapshots$closest$url) %>%
+               rvest::html_nodes("h1") %>%
+               html_text_collapse %>%
+               str_squish()
+
     } else {
       this_res$html <-
         NA
     }
 
+    archive$attr$start_from <- i
     archive$res[[i]] <- this_res
 
     save(archive, file = filename)
