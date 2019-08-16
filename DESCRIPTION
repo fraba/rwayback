@@ -15,4 +15,6 @@ Depends:
     xml2,
     rvest,
     dplyr,
-    stringr
+    stringr,
+    stringi
+RoxygenNote: 6.1.1
