@@ -33,3 +33,8 @@ it will overwrite without warning!.}
 \description{
 `retrieve()` saves a list containing the text contained in a selected number of tags.
 }
+\examples{
+retrieve(webpage = 'corriere.it',
+from = "2010-01-01 00:00:00", to = "2010-01-05 00:00:00",
+by = 'day', tz = 'CET', filename = 'corriere.RData')
+}

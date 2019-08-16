@@ -1,4 +1,4 @@
-#' Internal function to correctly parse <br> tags
+#' Internal function to correctly parse `<br>` tags
 #' Suggested by \url{https://github.com/rentrop}.
 #' See \url{https://github.com/tidyverse/rvest/issues/175#issuecomment-266434812}.
 html_text_collapse <- function(x, trim = FALSE, collapse = "\n"){
@@ -52,10 +52,10 @@ formatTimestamp <- function(timestamp.str, tz) {
 #' @param verbose Logical, do you want to print information about the requests to the Wayback Machine?
 #' @return `retrieve()` doesn't return anything. It saves the archive list in the working directory.
 #'   The list details about the requests (including the sequence) in `attr` and the parsed text in `res`.
-#' @example
-#'   retrieve(webpage = 'corriere.it',
-#'   from = "2010-01-01 00:00:00", to = "2010-01-05 00:00:00",
-#'   by = 'day', tz = 'CET', filename = 'corriere.RData')
+#' @examples
+#' retrieve(webpage = 'corriere.it',
+#' from = "2010-01-01 00:00:00", to = "2010-01-05 00:00:00",
+#' by = 'day', tz = 'CET', filename = 'corriere.RData')
 retrieve <-
   function(webpage = NULL,
            from = NULL, to = NULL, by = NULL, tz = NULL,
