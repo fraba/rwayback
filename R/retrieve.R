@@ -124,57 +124,61 @@ retrieve <-
           this_list[['archive-url']] <-
             this_res$archived_snapshots$closest$url
           this_html <-
-            xml2::read_html(this_list[['archive-url']])
+            try({xml2::read_html(this_list[['archive-url']])})
+
+          if (class(this_html) == 'try-error') {
+            next
+          }
 
           # h[1-7]
           for(this_tag in c(paste0("h",1:6))) {
             this_list[[this_tag]] <-
-              this_html %>%
-              rvest::html_nodes(this_tag) %>%
-              html_text_collapse %>%
-              stringr::str_squish() %>%
-              stringi::stri_remove_empty_na()
+              try({this_html %>%
+                  rvest::html_nodes(this_tag) %>%
+                  html_text_collapse %>%
+                  stringr::str_squish() %>%
+                  stringi::stri_remove_empty_na()})
           }
 
           # p
           this_list[['p']] <-
-            this_html %>%
-            rvest::html_nodes('p') %>%
-            html_text_collapse %>%
-            stringr::str_squish() %>%
-            stringi::stri_remove_empty_na()
+            try({this_html %>%
+                rvest::html_nodes('p') %>%
+                html_text_collapse %>%
+                stringr::str_squish() %>%
+                stringi::stri_remove_empty_na()})
 
           # a
           this_list[['a']] <-
-            this_html %>%
-            rvest::html_nodes('a') %>%
-            html_text_collapse %>%
-            stringr::str_squish() %>%
-            stringi::stri_remove_empty_na()
+            try({this_html %>%
+                rvest::html_nodes('a') %>%
+                html_text_collapse %>%
+                stringr::str_squish() %>%
+                stringi::stri_remove_empty_na()})
 
           # figure
           this_list[['figure']] <-
-            this_html %>%
-            rvest::html_nodes('figure') %>%
-            html_text_collapse %>%
-            stringr::str_squish() %>%
-            stringi::stri_remove_empty_na()
+            try({this_html %>%
+                rvest::html_nodes('figure') %>%
+                html_text_collapse %>%
+                stringr::str_squish() %>%
+                stringi::stri_remove_empty_na()})
 
           # figcaption
           this_list[['figcaption']] <-
-            this_html %>%
-            rvest::html_nodes('figcaption') %>%
-            html_text_collapse %>%
-            stringr::str_squish() %>%
-            stringi::stri_remove_empty_na()
+            try({this_html %>%
+                rvest::html_nodes('figcaption') %>%
+                html_text_collapse %>%
+                stringr::str_squish() %>%
+                stringi::stri_remove_empty_na()})
 
           # img alt
           this_list[['img-alt']] <-
-            this_html %>%
-            rvest::html_nodes('img') %>%
-            rvest::html_attr('alt') %>%
-            stringr::str_squish() %>%
-            stringi::stri_remove_empty_na()
+            try({this_html %>%
+                rvest::html_nodes('img') %>%
+                rvest::html_attr('alt') %>%
+                stringr::str_squish() %>%
+                stringi::stri_remove_empty_na()})
 
         }
 
