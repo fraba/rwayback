@@ -66,7 +66,7 @@ retrieve <-
     start_from <- 1
 
     if (is.null(archive)) {
-      webpage <- gsub("^http(s)?://www.", "", webpage)
+      # webpage <- gsub("^http(s)?://www.", "", webpage)
 
       if (!by %in% c("hour", "day", "DSTday", "week", "month", "quarter", "year")) {
         stop('`By` must be a character string containing containing one of
@@ -93,6 +93,8 @@ retrieve <-
 
     for (i in start_from:length(sequence)) {
 
+      Sys.sleep(5)
+
       this_timestamp <- sequence[i]
       this_label <- paste0("Failed on ", this_timestamp)
       attributes(this_timestamp)$tzone <- "GMT"
@@ -106,8 +108,16 @@ retrieve <-
         print(this_url)
       }
 
-      this_res <-
-        jsonlite::fromJSON(this_url)
+      repeat{
+        this_res <-
+          try({jsonlite::fromJSON(this_url)})
+        if(length(this_res$archived_snapshots$closest$available) == 0) {
+          if(verbose) {print("Wayback Machine API unresponsive. Retrying....")}
+          Sys.sleep(5)
+        } else {
+          break
+        }
+      }
 
       if (this_res$archived_snapshots$closest$available) {
         print(paste0("Searched: ", formatTimestamp(this_res$timestamp, tz = "GMT")))
@@ -121,13 +131,18 @@ retrieve <-
 
         if (this_res$archived_snapshots$closest$available) {
 
-          this_list[['archive-url']] <-
-            this_res$archived_snapshots$closest$url
-          this_html <-
-            try({xml2::read_html(this_list[['archive-url']])})
+          repeat{
+            this_list[['archive-url']] <-
+              this_res$archived_snapshots$closest$url
+            this_html <-
+              try({xml2::read_html(this_list[['archive-url']], verbose = T)})
 
-          if (class(this_html) == 'try-error') {
-            next
+            if (class(this_html[1]) != 'try-error') {
+              break
+            } else {
+              if (verbose) {print("Error reading html source. Retrying...")}
+              Sys.sleep(5)
+            }
           }
 
           # h[1-7]
