@@ -4,8 +4,16 @@
 \alias{retrieve}
 \title{Retrieve a series of pages from the Wayback Machine and parse their content.}
 \usage{
-retrieve(webpage = NULL, from = NULL, to = NULL, by = NULL,
-  tz = NULL, filename = NULL, archive = NULL, verbose = TRUE)
+retrieve(
+  webpage = NULL,
+  from = NULL,
+  to = NULL,
+  by = NULL,
+  tz = NULL,
+  filename = NULL,
+  archive = NULL,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{webpage}{The original address of the page to parse.}
@@ -19,12 +27,9 @@ one of `hour`, `day`, `DSTday`, `week`, `month`, `quarter` or `year`.}
 
 \item{tz}{The timezone, passed to `format.POSIXct`.}
 
-\item{archive}{The filaname (with extension) used to save the archive,
-it will overwrite without warning!.}
+\item{archive}{An uncompleted archive list, not tested yet!}
 
 \item{verbose}{Logical, do you want to print information about the requests to the Wayback Machine?}
-
-\item{archive}{An uncompleted archive list, not tested yet!}
 }
 \value{
 `retrieve()` doesn't return anything. It saves the archive list in the working directory.
