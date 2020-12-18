@@ -1,17 +1,3 @@
-#' Internal function to correctly parse `<br>` tags
-#' Suggested by \url{https://github.com/rentrop}.
-#' See \url{https://github.com/tidyverse/rvest/issues/175#issuecomment-266434812}.
-html_text_collapse <- function(x, trim = FALSE, collapse = "\n"){
-  UseMethod("html_text_collapse")
-}
-
-#' Internal function to correctly parse <br> tags
-#' Suggested by \url{https://github.com/rentrop}.
-#' See \url{https://github.com/tidyverse/rvest/issues/175#issuecomment-266434812}.
-html_text_collapse.xml_nodeset <- function(x, trim = FALSE, collapse = "\n"){
-  vapply(x, html_text_collapse.xml_node, character(1), trim = trim, collapse = collapse)
-}
-
 #' Parse timestamp from the Wayback Machine URLs
 #'
 #' @param url The Wayback Machine URL.
@@ -150,7 +136,6 @@ retrieve <-
             this_list[[this_tag]] <-
               try({this_html %>%
                   rvest::html_nodes(this_tag) %>%
-                  html_text_collapse %>%
                   stringr::str_squish() %>%
                   stringi::stri_remove_empty_na()})
           }
@@ -159,7 +144,6 @@ retrieve <-
           this_list[['p']] <-
             try({this_html %>%
                 rvest::html_nodes('p') %>%
-                html_text_collapse %>%
                 stringr::str_squish() %>%
                 stringi::stri_remove_empty_na()})
 
@@ -167,7 +151,6 @@ retrieve <-
           this_list[['a']] <-
             try({this_html %>%
                 rvest::html_nodes('a') %>%
-                html_text_collapse %>%
                 stringr::str_squish() %>%
                 stringi::stri_remove_empty_na()})
 
@@ -175,7 +158,6 @@ retrieve <-
           this_list[['figure']] <-
             try({this_html %>%
                 rvest::html_nodes('figure') %>%
-                html_text_collapse %>%
                 stringr::str_squish() %>%
                 stringi::stri_remove_empty_na()})
 
@@ -183,7 +165,6 @@ retrieve <-
           this_list[['figcaption']] <-
             try({this_html %>%
                 rvest::html_nodes('figcaption') %>%
-                html_text_collapse %>%
                 stringr::str_squish() %>%
                 stringi::stri_remove_empty_na()})
 
